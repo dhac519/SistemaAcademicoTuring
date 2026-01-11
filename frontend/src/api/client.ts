@@ -1,14 +1,15 @@
 import axios from 'axios';
 
-// Create an Axios instance with default configuration
+// En producción usará la variable de entorno, en local usará localhost
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+
 const client = axios.create({
-  baseURL: 'http://localhost:3000/api', // Adjust if your backend port differs
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor to add the auth token to every request
 client.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -22,12 +23,10 @@ client.interceptors.request.use(
   }
 );
 
-// Response interceptor to handle errors (e.g., global 401 handling)
 client.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // If unauthorized, you might want to redirect to login or clear token
       localStorage.removeItem('token');
       window.location.href = '/login';
     }
