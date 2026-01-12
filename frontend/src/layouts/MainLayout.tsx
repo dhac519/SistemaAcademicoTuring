@@ -73,6 +73,11 @@ const MainLayout: React.FC = () => {
       icon: <DollarOutlined />,
       label: 'Pagos',
     },
+    {
+      key: '/reports/debts',
+      icon: <DollarOutlined />,
+      label: 'Reporte Deudas',
+    },
   ];
 
   return (

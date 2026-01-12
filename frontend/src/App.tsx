@@ -14,6 +14,7 @@ import EnrollmentPage from './features/enrollments/pages/EnrollmentPage';
 import PaymentPage from './features/payments/pages/PaymentPage';
 
 import DashboardPage from './features/dashboard/pages/DashboardPage';
+import DebtsPage from './features/reports/pages/DebtsPage';
 
 const App: React.FC = () => {
   return (
@@ -32,9 +33,10 @@ const App: React.FC = () => {
                 <Route path="/payment-plans" element={<PaymentPlansPage />} />
                 <Route path="/enrollments" element={<EnrollmentPage />} />
                 <Route path="/payments" element={<PaymentPage />} />
+                <Route path="/reports/debts" element={<DebtsPage />} />
              </Route>
           </Route>
-          
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>

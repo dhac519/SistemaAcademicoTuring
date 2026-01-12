@@ -11,6 +11,8 @@ import paymentPlanRoutes from '../modules/payment-plans/payment-plans.routes';
 import paymentRoutes from '../modules/payments/payments.routes';
 import dashboardRoutes from '../modules/dashboard/dashboard.routes';
 
+import reportsRoutes from '../modules/reports/reports.routes';
+
 const router = Router();
 
 // Public Routes
@@ -25,5 +27,6 @@ router.use('/enrollments', authenticate, enrollmentRoutes);
 router.use('/payment-plans', authenticate, paymentPlanRoutes);
 router.use('/payments', authenticate, paymentRoutes);
 router.use('/dashboard', authenticate, dashboardRoutes);
+router.use('/reports', authenticate, reportsRoutes);
 
 export default router;
