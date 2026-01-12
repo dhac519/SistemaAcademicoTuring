@@ -2,81 +2,206 @@ import React from 'react';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import type { Payment } from '../../../types';
 
-// Reuse styles from EnrollmentVoucher for consistency
+// Matching branding colors
+const COLORS = {
+  primary: '#0050b3', 
+  secondary: '#595959',
+  lightBg: '#fafafa',
+  white: '#ffffff',
+  text: '#262626',
+  border: '#e8e8e8',
+  success: '#3f8600',
+};
+
 const styles = StyleSheet.create({
   page: {
-    flexDirection: 'column',
-    backgroundColor: '#FFFFFF',
-    padding: 30,
+    padding: 40,
+    fontFamily: 'Helvetica',
+    fontSize: 10,
+    color: COLORS.text,
+    lineHeight: 1.5,
   },
+  // HEADER SECTION
   header: {
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#1890ff',
-    paddingBottom: 10,
+    flexDirection: 'row',
+    marginBottom: 40,
+    justifyContent: 'space-between',
   },
-  title: {
-    fontSize: 24,
-    textAlign: 'center',
-    color: '#001529',
+  leftHeader: {
+    flexDirection: 'column',
+    width: '60%',
+  },
+  logo: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 16,
+  },
+  companyInfo: {
+    fontSize: 9,
+    color: COLORS.secondary,
+    marginBottom: 1,
+  },
+  rightHeader: {
+    width: '40%',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
+  },
+  invoiceBox: {
+    backgroundColor: COLORS.lightBg,
+    padding: 10,
+    borderRadius: 4,
+    width: '100%',
+    alignItems: 'flex-end',
+  },
+  invoiceLabel: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: COLORS.text,
+    textTransform: 'uppercase',
+  },
+  invoiceNumber: {
+    fontSize: 12,
+    color: COLORS.primary,
+    marginBottom: 5,
     fontWeight: 'bold',
   },
-  subtitle: {
-    fontSize: 14,
-    textAlign: 'center',
-    color: '#595959',
+  dateRow: {
+    flexDirection: 'row',
     marginTop: 5,
   },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
+  dateLabel: {
+    fontSize: 9,
+    color: COLORS.secondary,
+    marginRight: 5,
   },
-  row: {
+  dateValue: {
+    fontSize: 9,
+    fontWeight: 'bold',
+  },
+
+  // BILL TO SECTION
+  billToSection: {
+    marginBottom: 25,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  billToCol: {
+    width: '48%',
+  },
+  sectionTitle: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    color: COLORS.secondary,
+    textTransform: 'uppercase',
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+    paddingBottom: 4,
     marginBottom: 8,
   },
-  label: {
-    width: '30%',
-    fontSize: 12,
+  customerName: {
+    fontSize: 11,
     fontWeight: 'bold',
-    color: '#595959',
+    color: COLORS.text,
+    marginBottom: 2,
   },
-  value: {
-    width: '70%',
-    fontSize: 12,
-    color: '#000000',
+  customerDetail: {
+    fontSize: 10,
+    color: COLORS.text,
+    marginBottom: 2,
+  },
+
+  // TABLE SECTION
+  table: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  tableHeader: {
+    flexDirection: 'row',
+    backgroundColor: COLORS.primary,
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+    borderRadius: 2,
+  },
+  th: {
+    color: COLORS.white,
+    fontSize: 9,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+  },
+  td: {
+    color: COLORS.text,
+    fontSize: 10,
+  },
+  colConcept: { width: '50%' },
+  colMethod: { width: '25%', textAlign: 'center' },
+  colAmount: { width: '25%', textAlign: 'right' },
+
+  // TOTALS SECTION
+  totalsSection: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 10,
+  },
+  totalBox: {
+    width: '40%',
   },
   totalRow: {
     flexDirection: 'row',
-    marginTop: 20,
-    paddingTop: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#000',
+    justifyContent: 'space-between',
+    paddingVertical: 5,
+  },
+  finalTotalRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    borderTopWidth: 2,
+    borderTopColor: COLORS.primary,
+    marginTop: 5,
   },
   totalLabel: {
-    width: '70%',
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: COLORS.secondary,
+  },
+  grandTotalLabel: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+  },
+  grandTotalValue: {
     fontSize: 14,
     fontWeight: 'bold',
-    textAlign: 'right',
-    paddingRight: 10,
+    color: COLORS.text,
   },
-  totalValue: {
-    width: '30%',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
+
+  // FOOTER
   footer: {
     position: 'absolute',
-    bottom: 30,
-    left: 30,
-    right: 30,
+    bottom: 40,
+    left: 40,
+    right: 40,
     textAlign: 'center',
-    fontSize: 10,
-    color: '#8c8c8c',
+  },
+  footerText: {
+    fontSize: 8,
+    color: COLORS.secondary,
+    marginBottom: 4,
+  },
+  footerLine: {
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
-    paddingTop: 10,
+    borderTopColor: COLORS.border,
+    width: '100%',
+    marginBottom: 10,
   }
 });
 
@@ -88,75 +213,81 @@ const PaymentVoucher: React.FC<PaymentVoucherProps> = ({ payment }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       
-      {/* Header */}
+      {/* HEADER */}
       <View style={styles.header}>
-        <Text style={styles.title}>ACADEMIA TURING</Text>
-        <Text style={styles.subtitle}>Comprobante de Pago</Text>
-        <Text style={{ fontSize: 10, textAlign: 'right', marginTop: 10 }}>Recibo N°: {String(payment.id).padStart(6, '0')}</Text>
+        <View style={styles.leftHeader}>
+          <Text style={styles.logo}>Academia Turing</Text>
+          <Text style={styles.companyInfo}>Dirección: Jr. Silva Santisteban 1271</Text>
+          <Text style={styles.companyInfo}>Referencia: A 2 cdras de Plazuela Bolognesi</Text>
+          <Text style={styles.companyInfo}>Cel: +51 954430927 | +51 993169980</Text>
+        </View>
+        <View style={styles.rightHeader}>
+           <View style={styles.invoiceBox}>
+               <Text style={styles.invoiceLabel}>Recibo de Ingreso</Text>
+               <Text style={styles.invoiceNumber}>N° {String(payment.id).padStart(6, '0')}</Text>
+               <View style={styles.dateRow}>
+                 <Text style={styles.dateLabel}>Fecha:</Text>
+                 <Text style={styles.dateValue}>{new Date(payment.paidAt).toLocaleDateString()}</Text>
+               </View>
+           </View>
+        </View>
       </View>
 
-      {/* Content */}
-      <View style={styles.section}>
-        
-        {/* Student Details */}
-        <View style={{ marginBottom: 20 }}>
-          <Text style={{ fontSize: 16, marginBottom: 10, borderBottomWidth: 1, borderBottomColor: '#eee' }}>Datos del Estudiante</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Nombre:</Text>
-            <Text style={styles.value}>{payment.student ? `${payment.student.names} ${payment.student.lastName}` : 'N/A'}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>DNI:</Text>
-            <Text style={styles.value}>{payment.student?.dni || 'N/A'}</Text>
-          </View>
-        </View>
-
-        {/* Payment Details */}
-        <View style={{ marginBottom: 20 }}>
-          <Text style={{ fontSize: 16, marginBottom: 10, borderBottomWidth: 1, borderBottomColor: '#eee' }}>Detalles del Pago</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Concepto:</Text>
-            <Text style={styles.value}>{payment.concept}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Método:</Text>
-            <Text style={styles.value}>{payment.method}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Fecha:</Text>
-            <Text style={styles.value}>
-              {new Date(payment.paidAt).toLocaleString()}
+      {/* BILL TO */}
+      <View style={styles.billToSection}>
+        <View style={styles.billToCol}>
+            <Text style={styles.sectionTitle}>Recibido De:</Text>
+            <Text style={styles.customerName}>
+                {payment.student ? `${payment.student.names} ${payment.student.lastName}` : 'Cliente General'}
             </Text>
-          </View>
-           {/* Conditional rendering for Operation Code if available in type/schema */}
-           {/* Assuming Payment type might have operationCode or similar if added later, 
-               but based on current types.ts:
-               export interface Payment {
-                  id: number;
-                  studentId: number;
-                  student?: Student;
-                  amount: number;
-                  concept: string;
-                  method: string;
-                  paidAt: string;
-                }
-               It doesn't have operacionCode in frontend type yet, so skipping or check schema.
-               Backend schema has: operationCode String?
-            */}
+            <Text style={styles.customerDetail}>
+                DNI: {payment.student?.dni || '-'}
+            </Text>
+            <Text style={styles.customerDetail}>
+                {payment.student?.address || ''}
+            </Text>
         </View>
-
-        {/* Total */}
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>TOTAL PAGADO:</Text>
-          <Text style={styles.totalValue}>S/ {Number(payment.amount).toFixed(2)}</Text>
+        <View style={styles.billToCol}>
+             {/* Can include additional info here if needed */}
         </View>
-
       </View>
 
-      {/* Footer */}
+      {/* ITEMS TABLE */}
+      <View style={styles.table}>
+          {/* Header */}
+          <View style={styles.tableHeader}>
+              <Text style={[styles.th, styles.colConcept]}>Descripción / Concepto</Text>
+              <Text style={[styles.th, styles.colMethod]}>Método Pago</Text>
+              <Text style={[styles.th, styles.colAmount]}>Importe</Text>
+          </View>
+          {/* Row */}
+          <View style={styles.tableRow}>
+              <Text style={[styles.td, styles.colConcept]}>{payment.concept}</Text>
+              <Text style={[styles.td, styles.colMethod]}>{payment.method}</Text>
+              <Text style={[styles.td, styles.colAmount]}>S/ {Number(payment.amount).toFixed(2)}</Text>
+          </View>
+      </View>
+
+      {/* TOTALS */}
+      <View style={styles.totalsSection}>
+          <View style={styles.totalBox}>
+              <View style={styles.totalRow}>
+                  <Text style={styles.totalLabel}>Subtotal:</Text>
+                  <Text style={styles.td}>S/ {Number(payment.amount).toFixed(2)}</Text>
+              </View>
+              {/* No Tax logic provided yet, assuming inclusive or simple receipt */}
+              <View style={styles.finalTotalRow}>
+                  <Text style={styles.grandTotalLabel}>TOTAL:</Text>
+                  <Text style={styles.grandTotalValue}>S/ {Number(payment.amount).toFixed(2)}</Text>
+              </View>
+          </View>
+      </View>
+
+      {/* FOOTER */}
       <View style={styles.footer}>
-        <Text>Gracias por su pago.</Text>
-        <Text>Generado automáticamente por el Sistema Académico Turing</Text>
+         <View style={styles.footerLine} />
+         <Text style={styles.footerText}>Gracias por su pago.</Text>
+         <Text style={styles.footerText}>Generado automáticamente por el Sistema Académico Turing</Text>
       </View>
 
     </Page>

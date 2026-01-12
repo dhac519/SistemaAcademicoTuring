@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Space, Modal, Popconfirm, Tag, Input } from 'antd';
-import { DeleteOutlined, PlusOutlined, SearchOutlined, EditOutlined, StopOutlined, CheckOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined, SearchOutlined, EditOutlined, StopOutlined, CheckOutlined, FilePdfOutlined, EyeOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import EnrollmentVoucher from '../components/EnrollmentVoucher';
 import type { Enrollment } from '../../../types';
 import EnrollmentForm from '../components/EnrollmentForm';
 import { useEnrollments } from '../hooks/useEnrollments';
+import StudentFinancialModal from '../components/StudentFinancialModal';
 
 const EnrollmentPage: React.FC = () => {
   const { data, loading, fetchEnrollments, createEnrollment, updateEnrollment, updateEnrollmentStatus, deleteEnrollment } = useEnrollments();
@@ -14,6 +15,8 @@ const EnrollmentPage: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [formLoading, setFormLoading] = useState(false);
   const [editingEnrollment, setEditingEnrollment] = useState<Enrollment | null>(null);
+  const [financialModalVisible, setFinancialModalVisible] = useState(false);
+  const [selectedStudentId, setSelectedStudentId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchEnrollments();
@@ -51,6 +54,11 @@ const EnrollmentPage: React.FC = () => {
     if (success) {
       setIsModalVisible(false);
     }
+  };
+
+  const handleShowFinancials = (studentId: number) => {
+    setSelectedStudentId(studentId);
+    setFinancialModalVisible(true);
   };
 
   const filteredData = data.filter(item => 
@@ -107,6 +115,12 @@ const EnrollmentPage: React.FC = () => {
               />
             )}
           </PDFDownloadLink>
+
+          <Button 
+            icon={<EyeOutlined />} 
+            onClick={() => record.student && handleShowFinancials(record.student.id)} 
+            title="Ver Estado Financiero" 
+          />
 
           <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} title="Editar" />
           
@@ -165,6 +179,12 @@ const EnrollmentPage: React.FC = () => {
           loading={formLoading}
         />
       </Modal>
+
+      <StudentFinancialModal
+        visible={financialModalVisible}
+        studentId={selectedStudentId}
+        onCancel={() => setFinancialModalVisible(false)}
+      />
     </div>
   );
 };

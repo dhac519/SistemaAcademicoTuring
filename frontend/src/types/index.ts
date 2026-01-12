@@ -24,6 +24,8 @@ export interface Student {
   birthDate?: string;
   phone?: string;
   address?: string;
+  grade?: string;
+  schoolName?: string;
   user?: User;
   parent?: Parent;
 }

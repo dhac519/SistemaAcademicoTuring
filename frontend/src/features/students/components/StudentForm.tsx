@@ -123,12 +123,43 @@ const StudentForm: React.FC<StudentFormProps> = ({ initialValues, onSubmit, load
           </Col>
         </Row>
 
-        <Form.Item
-          name="address"
-          label="Dirección"
-        >
-          <Input />
-        </Form.Item>
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              name="phone"
+              label="Teléfono / Celular"
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              name="address"
+              label="Dirección"
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              name="grade"
+              label="Grado / Año Escolar"
+            >
+              <Input placeholder="Ej: 5to Secundaria" />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              name="schoolName"
+              label="Nombre del Colegio"
+            >
+               <Input placeholder="Ej: I.E. Emblemática" />
+            </Form.Item>
+          </Col>
+        </Row>
 
         <Form.Item label="Apoderado (Padre)">
             <Row gutter={8}>

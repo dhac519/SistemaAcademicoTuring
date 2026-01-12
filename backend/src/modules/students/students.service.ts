@@ -135,6 +135,17 @@ export const getStudentBalance = async (id: number) => {
     studentName: `${student.names} ${student.lastName}`,
     totalDue,
     totalPaid,
-    balance: balance > 0 ? balance : 0 // Assuming no negative balance logic for now
+    balance: balance > 0 ? balance : 0,
+    enrollments: student.enrollments.map(e => ({
+      id: e.id,
+      plan: e.paymentPlan?.name || 'Unknown',
+      cost: Number(e.paymentPlan?.cost || 0)
+    })),
+    payments: student.payments.map(p => ({
+      id: p.id,
+      amount: Number(p.amount),
+      date: p.createdAt,
+      method: p.method
+    }))
   };
 };

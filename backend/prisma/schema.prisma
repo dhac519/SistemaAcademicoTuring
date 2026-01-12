@@ -75,6 +75,8 @@ model Student {
   birthDate DateTime?
   phone     String?
   address   String?
+  grade     String?
+  schoolName String?
   
   parentId  Int?
   parent    Parent?  @relation(fields: [parentId], references: [id])

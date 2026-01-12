@@ -33,7 +33,8 @@ export const getEnrollments = async () => {
         select: {
           names: true,
           lastName: true,
-          dni: true
+          dni: true,
+          id: true
         }
       },
       group: {
