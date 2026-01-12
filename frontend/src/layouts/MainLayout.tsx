@@ -78,7 +78,19 @@ const MainLayout: React.FC = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" style={{ height: 32, margin: 16, background: 'rgba(255, 255, 255, 0.2)', borderRadius: 6 }} />
+        <div style={{ 
+          height: 32, 
+          margin: 16, 
+          // background: 'rgba(255, 255, 255, 0.2)', 
+          textAlign: 'center',
+          color: '#fff',
+          fontWeight: 'bold',
+          lineHeight: '32px',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap'
+        }}>
+          ACADEMIA TURING
+        </div>
         <Menu
           theme="dark"
           mode="inline"
